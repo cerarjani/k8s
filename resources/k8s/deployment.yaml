@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-node-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-node-app
+  template:
+    metadata:
+      labels:
+        app: my-node-app
+    spec:
+      containers:
+        - name: my-node-app
+          image: localhost:5000/my-node-app:latest
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+#          readinessProbe:
+#            httpGet:
+#              path: /health/ready
+#              port: 3000
+#            initialDelaySeconds: 5
+#            timeoutSeconds: 2
+#          livenessProbe:
+#            httpGet:
+#              path: /health/live
+#              port: 3000
+#            initialDelaySeconds: 20
+#            timeoutSeconds: 10
+#            periodSeconds: 45
+#          env:
+#            - name: MY_NAME
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: inova-test
+#                  key: MY_NAME
+#            - name: TOKEN
+#              valueFrom:
+#                secretKeyRef:
+#                  name: app-secrets
+#                  key: token-secret
